@@ -3,39 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تكنو ستور | متجر الإلكترونيات المطور</title>
+    <title>تكنو ستور | متجر الإلكترونيات المستقبلي</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- صندوق الإشعارات والرسائل العصرية -->
+    <!-- صندوق رسائل النجاح والاشعارات العصرية -->
     <div id="custom-toast" class="toast-message"></div>
 
-    <!-- القائمة العلوية المتجاوبة -->
+    <!-- القائمة العلوية لشاشات الكمبيوتر واللابتوب -->
     <header class="navbar">
         <div class="logo">تكنو<span>ستور</span></div>
-        <nav class="nav-links" id="nav-links">
+        <nav class="nav-links">
             <a href="#" onclick="showSection('home-sec')" class="active">الرئيسية</a>
             <a href="#" onclick="showSection('about-sec')">من نحن</a>
             <a href="#" onclick="showSection('contact-sec')">تواصل معنا</a>
-            <a href="#" id="nav-dash-link" onclick="showSection('dashboard-sec')" style="display:none; color: #00f2fe;">لوحة التحكم ⚙️</a>
+            <a href="#" id="nav-dash-link" onclick="showSection('dashboard-sec')" style="display:none; color: #ff007f; font-weight: bold;">لوحة التحكم ⚙️</a>
         </nav>
         <div class="nav-actions">
             <button id="auth-btn" onclick="openAuthModal()">تسجيل الدخول</button>
         </div>
     </header>
 
-    <!-- الواجهة الرئيسية وقسم المنتجات -->
+    <!-- الواجهة الرئيسية وقسم عرض المنتجات -->
     <section id="home-sec" class="page-section active">
         <div class="hero">
             <div class="hero-content">
                 <h1>إلكترونيات المستقبل بين يديك</h1>
-                <p>اطلب منتجك المفضل مباشرة بضغطة زر واحدة وبدون تعقيد السلة.</p>
+                <p>اطلب منتجك المفضل مباشرة بضغطة زر واحدة بدون تعقيد السلة.</p>
             </div>
         </div>
         <main class="container">
             <h2 class="section-title">الأجهزة المتوفرة</h2>
-            <div class="products-grid" id="products-container"></div>
+            <div class="products-grid" id="products-container">
+                <!-- المنتجات تظهر هنا تلقائياً عبر الجافاسكريبت -->
+            </div>
         </main>
     </section>
 
@@ -43,7 +45,7 @@
     <section id="about-sec" class="page-section container">
         <h2 class="section-title">من نحن</h2>
         <div class="card-ui">
-            <p>نحن متجر تكنو ستور المتخصص في توفير أحدث التقنيات والإلكترونيات الذكية بأعلى جودة وأفضل الأسعار مع توفير نظام متابعة دقيق لطلبات عملائنا خطوة بخطوة.</p>
+            <p>نحن متجر تكنو ستور المتخصص في توفير أحدث التقنيات والإلكترونيات الذكية بأعلى جودة وأفضل الأسعار مع توفير نظام متابعة دقيق لطلبات عملائنا.</p>
         </div>
     </section>
 
@@ -51,32 +53,28 @@
     <section id="contact-sec" class="page-section container">
         <h2 class="section-title">تواصل معنا</h2>
         <div class="card-ui">
-            <p>يسعدنا تواصلك معنا عبر القنوات التالية:</p>
-            <p style="margin-top:12px;">📧 البريد الإلكتروني: support@technostore.com</p>
+            <p>يسعدنا تواصلك معنا عبر القنوات الرسمية التالية:</p>
+            <p style="margin-top:15px;">📧 البريد الإلكتروني: support@technostore.com</p>
             <p>📞 الدعم الفني: 966500000000+</p>
         </div>
     </section>
-
-    <!-- لوحة التحكم وحساب المستخدم -->
+    <!-- لوحة التحكم المشتركة للزبائن والآدمن -->
     <section id="dashboard-sec" class="page-section container">
-        <!-- شاشة الزبون بعد تسجيل الدخول -->
+        <!-- شاشة الحساب الشخصي للزبون بعد تسجيل الدخول -->
         <div id="user-panel" style="display:none;">
             <div class="dashboard-header">
                 <h2>مرحباً، <span id="user-display-name"></span> 👋</h2>
                 <button class="btn-danger" onclick="logout()">تسجيل الخروج</button>
             </div>
-            
             <div class="dashboard-grid">
-                <!-- تعديل البيانات -->
                 <div class="card-ui">
                     <h3>تعديل الملف الشخصي</h3>
                     <form onsubmit="updateProfile(event)" style="margin-top:15px;">
                         <input type="text" id="update-name" placeholder="الاسم الجديد" required>
                         <input type="password" id="update-pass" placeholder="كلمة المرور الجديدة" required>
-                        <button type="submit" class="btn-primary" style="width:100%;">تحديث البيانات</button>
+                        <button type="submit" class="btn-primary">تحديث البيانات</button>
                     </form>
                 </div>
-                <!-- طلبات الزبون ومتابعتها -->
                 <div class="card-ui">
                     <h3>طلباتي ومتابعة التوصيل</h3>
                     <div id="user-orders-list" style="margin-top:15px;"></div>
@@ -84,30 +82,27 @@
             </div>
         </div>
 
-        <!-- شاشة مدير الموقع (الآدمن) -->
+        <!-- لوحة تحكم مدير الموقع (الآدمن) الشاملة -->
         <div id="admin-panel" style="display:none;">
             <div class="dashboard-header">
                 <h2>لوحة تحكم الإدارة لـ تكنو ستور 🔐</h2>
                 <button class="btn-danger" onclick="logout()">خروج الآدمن</button>
             </div>
-
-            <!-- نموذج إضافة منتج جديد المطور - خيار رفع الصورة -->
+            
+            <!-- 1. نموذج إضافة منتج جديد بالصورة -->
             <div class="card-ui" style="margin-top:20px;">
                 <h3>إضافة منتج جديد للمتجر ➕</h3>
                 <form onsubmit="addNewProduct(event)" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
                     <input type="text" id="prod-name" placeholder="اسم المنتج (مثال: شاحن سريع)" style="flex: 2; min-width: 200px; margin-bottom: 0;" required>
                     <input type="number" id="prod-price" placeholder="السعر بالريال" style="flex: 1; min-width: 100px; margin-bottom: 0;" required>
-                    
                     <div style="flex: 1; min-width: 200px;">
-                        <label style="font-size: 12px; color: var(--accent-color); display: block; margin-bottom: 5px;">اختر صورة المنتج:</label>
                         <input type="file" id="prod-image-file" accept="image/*" style="padding: 5px; margin-bottom: 0;" required>
                     </div>
-
                     <button type="submit" class="btn-primary" style="padding: 12px 25px; height: 46px; align-self: flex-end;">نشر المنتج 🚀</button>
                 </form>
             </div>
 
-            <!-- جدول عرض وحذف المنتجات الحاليين للآدمن -->
+            <!-- 2. جدول عرض وحذف سلع المتجر الحالية -->
             <div class="card-ui" style="margin-top:30px;">
                 <h3>إدارة وحذف المنتجات المعروضة 📦</h3>
                 <div style="overflow-x:auto; margin-top:15px;">
@@ -124,10 +119,10 @@
                     </table>
                 </div>
             </div>
-            
-            <!-- جدول إدارة الطلبات وحذفها وتعديل أوقاتها -->
+
+            <!-- 3. جدول إدارة طلبات واستبانات العملاء -->
             <div class="card-ui" style="margin-top:30px;">
-                <h3>إدارة طلبات العملاء واستمارات البيع</h3>
+                <h3>إدارة طلبات العملاء واستمارات البيع 📋</h3>
                 <div style="overflow-x:auto; margin-top:15px;">
                     <table class="admin-table">
                         <thead>
@@ -146,7 +141,7 @@
                 </div>
             </div>
 
-            <!-- جدول استعراض الحسابات المسجلة -->
+            <!-- 4. جدول عرض حسابات العملاء المسجلين -->
             <div class="card-ui" style="margin-top:30px;">
                 <h3>قائمة العملاء الذين سجلوا بالموقع 👥</h3>
                 <div style="overflow-x:auto; margin-top:15px;">
@@ -154,8 +149,8 @@
                         <thead>
                             <tr>
                                 <th>اسم المستخدم</th>
-                                <th>الاسم الحالي الظاهر للعميل</th>
-                                <th>كلمة السر المحفوظة لـ حسابه</th>
+                                <th>الاسم الظاهر</th>
+                                <th>كلمة السر الحالية</th>
                             </tr>
                         </thead>
                         <tbody id="admin-users-table"></tbody>
@@ -165,7 +160,7 @@
         </div>
     </section>
 
-    <!-- نافذة استبانة الشراء الفوري لكل منتج -->
+    <!-- نافذة استبانة الشراء الفوري المنبثقة لكل منتج -->
     <div class="modal" id="order-modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('order-modal')">×</span>
@@ -173,14 +168,14 @@
             <p id="order-product-title" style="color:var(--accent-color); margin-bottom:15px; font-weight:bold;"></p>
             <form onsubmit="submitOrder(event)">
                 <input type="text" id="cust-name" placeholder="الاسم الكامل" required>
-                <input type="tel" id="cust-phone" placeholder="رقم الجوال متبوعاً بمفتاح الدولة" required>
+                <input type="tel" id="cust-phone" placeholder="رقم الجوال" required>
                 <input type="text" id="cust-address" placeholder="العنوان بالتفصيل" required>
                 <button type="submit" class="btn-primary">تأكيد وإرسال الطلب</button>
             </form>
         </div>
     </div>
 
-    <!-- نافذة تسجيل الدخول / إنشاء الحساب الموحدة -->
+    <!-- نافذة تسجيل الدخول وإنشاء الحساب الموحدة للزبائن -->
     <div class="modal" id="auth-modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('auth-modal')">×</span>
@@ -196,6 +191,26 @@
                 </p>
             </div>
         </div>
+    </div>
+
+    <!-- شريط التنقل السفلي المخصص والحصري للهواتف الذكية لمنع تداخل القوائم -->
+    <div class="bottom-nav">
+        <a href="#" onclick="showSection('home-sec')" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">الرئيسية</span>
+        </a>
+        <a href="#" onclick="showSection('about-sec')" class="nav-item">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-text">من نحن</span>
+        </a>
+        <a href="#" onclick="showSection('contact-sec')" class="nav-item">
+            <span class="nav-icon">📞</span>
+            <span class="nav-text">اتصل بنا</span>
+        </a>
+        <a href="#" onclick="openAuthModal()" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">حسابي</span>
+        </a>
     </div>
 
     <script src="script.js"></script>
