@@ -1,4 +1,4 @@
-// 1. المنتجات الافتراضية (تستخدم أول مرة يفتح فيها المتجر)
+// 1. قائمة الأجهزة الإلكترونية الافتراضية الموحدة لجميع المتصفحات
 const defaultProducts = [
     { id: 1, name: "سماعة رأس محيطية مضيئة", price: 299, icon: "🎧", isTextIcon: true },
     { id: 2, name: "ماوس ألعاب لاسلكي سريع", price: 180, icon: "🖱️", isTextIcon: true },
@@ -6,12 +6,14 @@ const defaultProducts = [
     { id: 4, name: "لوحة مفاتيح ميكانيكية RGB", price: 350, icon: "⌨️", isTextIcon: true }
 ];
 
+// بيانات حساب الآدمن الخاصة بك للدخول من أي جهاز
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "admin123";
 
 let currentSelectedProduct = null;
 let authMode = "login"; 
 
+// تحميل وتثبيت وتهيئة النظام فور فتح الموقع
 document.addEventListener("DOMContentLoaded", () => {
     initMockDatabase();
     renderProducts();
@@ -34,6 +36,7 @@ function showToast(message) {
         setTimeout(() => { toast.classList.remove("show"); }, 3500);
     }
 }
+// دالة عرض المنتجات الموحدة
 function renderProducts() {
     const container = document.getElementById("products-container");
     if (!container) return;
@@ -53,13 +56,22 @@ function renderProducts() {
     });
 }
 
+// دالة الانتقال بين أقسام الموقع وتحديث أزرار الجوال السفلية والعلوية بالتزامن
 function showSection(sectionId) {
     document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(item => item.classList.remove('active'));
+    
     const sec = document.getElementById(sectionId);
     if (sec) sec.classList.add('active');
+    
+    // إضاءة الزر العلوي النشط للكمبيوتر
     const activeLink = Array.from(document.querySelectorAll('.nav-links a')).find(a => a.getAttribute('onclick')?.includes(sectionId));
     if (activeLink) activeLink.classList.add('active');
+
+    // إضاءة الزر السفلي النشط للجوال
+    const activeBotLink = Array.from(document.querySelectorAll('.bottom-nav .nav-item')).find(item => item.getAttribute('onclick')?.includes(sectionId));
+    if (activeBotLink) activeBotLink.classList.add('active');
 }
 function openOrderModal(productId) {
     const currentProducts = JSON.parse(localStorage.getItem("store_products"));
@@ -106,7 +118,11 @@ function submitOrder(e) {
 }
 function openAuthModal() {
     const loggedUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
-    if (loggedUser) { showSection("dashboard-sec"); } else { document.getElementById("auth-modal").classList.add("active"); }
+    if (loggedUser) { 
+        showSection("dashboard-sec"); 
+    } else { 
+        document.getElementById("auth-modal").classList.add("active"); 
+    }
 }
 
 function toggleAuthMode() {
@@ -114,12 +130,12 @@ function toggleAuthMode() {
         authMode = "register";
         document.getElementById("auth-title").innerText = "إنشاء حساب جديد";
         document.getElementById("auth-submit-btn").innerText = "سجل الآن";
-        document.getElementById("auth-toggle-link").innerText = "لديك حساب بالفعل؟ سجل دخولك";
+        document.getElementById("auth-toggle-link").innerText = "لديك حساب بالفعل? سجل دخولك";
     } else {
         authMode = "login";
         document.getElementById("auth-title").innerText = "تسجيل الدخول";
         document.getElementById("auth-submit-btn").innerText = "دخول";
-        document.getElementById("auth-toggle-link").innerText = "ليس لديك حساب؟ سجل الآن";
+        document.getElementById("auth-toggle-link").innerText = "ليس لديك حساب? سجل الآن";
     }
 }
 
@@ -131,7 +147,7 @@ function handleAuth(e) {
     if (user === ADMIN_USER && pass === ADMIN_PASS) {
         const adminSession = { username: ADMIN_USER, role: "admin" };
         sessionStorage.setItem("loggedInUser", JSON.stringify(adminSession));
-        showToast("🔓 أهلاً بك يا مدير الموقع.");
+        showToast("🔓 أهلاً بك يا مدير الموقع في لوحة التحكم.");
         closeModal("auth-modal");
         checkSession();
         showSection("dashboard-sec");
@@ -231,7 +247,7 @@ function loadAdminOrders() {
     if (!tbody) return; tbody.innerHTML = "";
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
     if (orders.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>لا توجد طلبات مسجلة.</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>لا توجد طلبات مسجلة حالياً.</td></tr>";
         return;
     }
     orders.forEach(o => {
@@ -242,11 +258,11 @@ function loadAdminOrders() {
             <td>${o.phone}</td>
             <td>${o.address}</td>
             <td><strong>${o.productName}</strong></td>
-            <td><span style='color:var(--accent-color);'>${o.eta}</span></td>
+            <td><span style='color:var(--accent-color); font-weight:bold;'>${o.eta}</span></td>
             <td>
-                <input type="text" placeholder="يومين" id="eta-input-${o.orderId}" style="width:70px; margin:0; padding:4px; font-size:12px;">
-                <button class="btn-primary" onclick="setOrderEta(${o.orderId})" style="padding:4px 8px; font-size:11px;">حفظ</button>
-                <button class="btn-delete-order" onclick="deleteOrder(${o.orderId})">حذف</button>
+                <input type="text" placeholder="يومين" id="eta-input-${o.orderId}" style="width:70px; margin:0; padding:4px; font-size:12px; display:inline-block;">
+                <button class="btn-primary" onclick="setOrderEta(${o.orderId})" style="padding:4px 8px; font-size:11px; width:auto; display:inline-block;">حفظ</button>
+                <button class="btn-delete-order" onclick="deleteOrder(${o.orderId})" style="padding:4px 8px; font-size:11px; display:inline-block;">حذف</button>
             </td>
         `;
         tbody.appendChild(tr);
@@ -290,7 +306,7 @@ function addNewProduct(e) {
         showToast("🚀 تم نشر المنتج الجديد بنجاح!");
         renderProducts(); loadAdminProducts(); showSection("home-sec");
     };
-    reader.readAsDataURL(fileInput[0]);
+    reader.readAsDataURL(fileInput);
 }
 function loadAdminProducts() {
     const tbody = document.getElementById("admin-products-table");
@@ -298,7 +314,7 @@ function loadAdminProducts() {
     const currentProducts = JSON.parse(localStorage.getItem("store_products")) || defaultProducts;
     currentProducts.forEach(p => {
         const tr = document.createElement("tr");
-        const thumb = p.isTextIcon ? `<div>${p.icon}</div>` : `<img src="${p.icon}" class="admin-prod-thumb">`;
+        const thumb = p.isTextIcon ? `<div style="font-size:20px;">${p.icon}</div>` : `<img src="${p.icon}" class="admin-prod-thumb">`;
         tr.innerHTML = `<td>${thumb}</td><td><strong>${p.name}</strong></td><td>${p.price} ر.س</td><td><button class="btn-delete-order" onclick="deleteProduct(${p.id})">حذف</button></td>`;
         tbody.appendChild(tr);
     });
@@ -309,7 +325,7 @@ function deleteProduct(productId) {
         let currentProducts = JSON.parse(localStorage.getItem("store_products"));
         currentProducts = currentProducts.filter(p => p.id !== productId);
         localStorage.setItem("store_products", JSON.stringify(currentProducts));
-        showToast("🗑️ تم حذف السلعة.");
+        showToast("🗑️ تم حذف السلعة من المتجر.");
         renderProducts(); loadAdminProducts();
     }
 }
